@@ -120,8 +120,7 @@ EOTEXT
 
       $actually_close = true;
       if ($is_finalize) {
-        if ($this->getRepositoryPHID() ||
-            $revision['status'] != $status_accepted) {
+        if ($revision['status'] != $status_accepted) {
           $actually_close = false;
         }
       }
