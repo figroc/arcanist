@@ -4,17 +4,21 @@ final class ArcanistCommentRemover extends Phobject {
 
   /**
    * Remove comment lines from a commit message. Strips trailing lines only,
-   * and requires "#" to appear at the beginning of a line for it to be
+   * and requires "# " to appear at the beginning of a line for it to be
    * considered a comment.
    */
   public static function removeComments($body) {
     $body = rtrim($body);
 
-    $lines = phutil_split_lines($body);
+    $lines = explode("\n", $body);
     $lines = array_reverse($lines);
 
     foreach ($lines as $key => $line) {
-      if (preg_match('/^#/', $line)) {
+      if (!strlen($line)) {
+        unset($lines[$key]);
+        continue;
+      }
+      if (preg_match("/^# /", $line)) {
         unset($lines[$key]);
         continue;
       }
@@ -23,7 +27,7 @@ final class ArcanistCommentRemover extends Phobject {
     }
 
     $lines = array_reverse($lines);
-    $lines = implode('', $lines);
+    $lines = implode("\n", $lines);
     $lines = rtrim($lines)."\n";
 
     return $lines;
