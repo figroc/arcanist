@@ -18,7 +18,7 @@ final class ArcanistCommentRemover extends Phobject {
         unset($lines[$key]);
         continue;
       }
-      if (preg_match("/^# /", $line)) {
+      if ($line[0] == '#') {
         unset($lines[$key]);
         continue;
       }
